@@ -2,6 +2,4 @@
 
 hello - testing push 
 
-Testing2
-
-new feature branch test pull
+Testing
