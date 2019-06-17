@@ -92,13 +92,20 @@
     .flip-container {
         perspective: 1000px;
     }
-    
-    div#rules {
+    /* div#rules {
         border: 1px solid white;
-        padding: 50px;
+        padding: 300px;
         margin-bottom: 200px;
-        position: relative;
-        left: 450px;
+    } */
+    
+    #rules {
+        background-color: black;
+        border: 1px solid white;
+        width: 100%;
+        margin-bottom: 300px;
+        padding: 50px;
+        /* position: relative;
+        left: 250px; */
     }
     /* flip the pane when hovered */
     
@@ -165,6 +172,9 @@
             margin-left: -19.3em;
             float: left;
         }
+        #rules {
+            float: left;
+        }
     }
     /* CUSTOM FONTS  */
     
@@ -198,5 +208,3 @@
             color: red;
         }
     }
-    
-    Collapse Message Input

@@ -26,19 +26,40 @@
 
     <div class="columns-container">
         <div id="rules">
-            <p><strong>Welcome to our game, here is how to play: </strong></p>
-            <h2>Rules</h2>
-            <ul>
-                <li>Hover over a Met card to see a painting</li>
-                <li>Make a guess about where the painting was found / from</li>
-                <li>On the map, select a location of your guess / where you think the painting came from</li>
-                <li>Click on the marker to see the exact coordinates pop up under the confirm button</li>
-                <li>When you feel confident about your answer, please press the confirm button.</li>
-                <li>When you are ready to play, press the start button.</li>
-            </ul>
-            <button id="start" class="btn-danger">Start Game</button>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p><strong>Welcome to our game, here is how to play: </strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-center">Rules</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul>
+                            <li>Hover over a Met card to see a painting</li>
+                            <li>Make a guess about where the painting was found / from</li>
+                            <li>On the map, select a location of your guess / where you think the painting came from</li>
+                            <li>Click on the marker to see the exact coordinates pop up under the confirm button</li>
+                            <li>When you feel confident about your answer, please press the confirm button.</li>
+                            <li>When you are ready to play, press the start button.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class=" col-md-12 text-center">
+                        <button id="start" class="gamebutton btn-danger">Start Game</button>
+
+                    </div>
+                </div>
+            </div>
 
         </div>
+
         <div class="left-column" style="display:none">
             <h2 id="blinking">Guess</h2>
             <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
