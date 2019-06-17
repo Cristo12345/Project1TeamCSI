@@ -157,6 +157,10 @@
         font-family: "fts";
         letter-spacing: 5px;
     }
+    
+    #confirm {
+        background-color: black;
+    }
     /* MEDIA QUERIES */
     
     @media screen and (min-width: 47.5em) {
