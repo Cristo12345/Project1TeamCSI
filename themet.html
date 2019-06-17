@@ -71,7 +71,7 @@
                     </div>
                     <div class="back">
                         <!-- back content -->
-                        <img src="https://i.pinimg.com/originals/bb/55/66/bb5566c14a95f1897b1e258e0fcb69fe.jpg" alt="themet" style="width:280px;height:280px;">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/41IEHKYmcuL._SX425_.jpg" alt="themet" style="width:280px;height:280px;">
                     </div>
                 </div>
             </div>
@@ -135,7 +135,10 @@
             var map = new google.maps.Map(
                 document.getElementById('map'), {
                     zoom: 3,
-                    center: uluru,
+                    center: {
+                        lat: 43.7696,
+                        lng: 11.2558
+                    },
                     styles: [{
                         elementType: 'geometry',
                         stylers: [{
@@ -250,7 +253,10 @@
                 });
             // The marker, positioned at Uluru
             var marker = new google.maps.Marker({
-                position: uluru,
+                position: {
+                    lat: 43.7696,
+                    lng: 11.2558
+                },
                 map: map,
                 draggable: true,
                 animation: google.maps.Animation.DROP,
@@ -297,7 +303,10 @@
         var database = firebase.database();
 
         database.ref().set({
-            position: uluru
+            position: {
+                lng: 43.7696,
+                lat: 11.2558
+            }
         })
     </script>
 
