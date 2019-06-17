@@ -1,3 +1,4 @@
+<<<<<<< HEAD
     html {
         box-sizing: border-box;
     }
@@ -200,3 +201,105 @@
     }
     
     Collapse Message Input
+=======
+    html {
+        box-sizing: border-box;
+    }
+    
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+    
+    body {
+        margin: 0 auto;
+        background: url("photos/metpic.jpg") no-repeat fixed center;
+        background-size: cover;
+        color: white;
+    }
+    
+    footer,
+    header {
+        position: relative;
+        clear: both;
+        background-color: firebrick;
+        color: white;
+    }
+    
+    .left-column,
+    .right-column,
+    footer,
+    header {
+        border: 1px solid #ccc;
+        padding: 1.25em;
+        margin: .5em;
+    }
+    
+    .nav {
+        list-style: none;
+        margin-left: 0;
+        margin-bottom: 0;
+        padding-left: 0;
+    }
+    
+    .nav>li,
+    .nav>li>a {
+        display: inline-block;
+        display: inline;
+        zoom: 1;
+    }
+    
+    .inline-items {
+        margin-top: 0;
+    }
+    
+    .inline-items li {
+        margin-left: 0;
+        border-left: 1px solid black;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: white;
+    }
+    
+    .inline-items li:first-child {
+        margin-left: 0;
+        border: none;
+        padding-left: 0;
+        padding-right: 10px;
+    }
+    
+    .inline-items li:last-child {
+        padding-right: 0;
+    }
+    
+    a {
+        color: white;
+    }
+    
+    img#image {
+        border: 10px solid black;
+    }
+    
+    button#rightcolumnbutton {
+        margin-top: 5px;
+        background-color: firebrick;
+        color: white;
+    }
+    /* MEDIA QUERIES */
+    
+    @media screen and (min-width: 47.5em) {
+        .columns-container {
+            float: left;
+        }
+        .left-column {
+            margin-right: 20em;
+            float: left;
+        }
+        .right-column {
+            width: 18.75em;
+            margin-left: -19.3em;
+            float: left;
+        }
+    }
+>>>>>>> 1032f0825f650f9d50195b20e69787b6c73d80e3
