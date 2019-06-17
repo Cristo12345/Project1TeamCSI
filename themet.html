@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Eater|Fredericka+the+Great&display=swap" rel="stylesheet">
+
+    <title>Game</title>
+
+</head>
+
+<body>
+    <header>
+        <div class="header"></div>
+        <h1 id="game">Game</h1>
+        <nav>
+            <ul class="nav inline-items">
+                <li><strong><a href="#">Home</a></strong></li>
+                <li><strong><a href="#">Blog</a></strong></li>
+                <li><strong><a href="#">Game</a></strong></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="columns-container">
+        <div id="rules">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p><strong>Welcome to our game, here is how to play: </strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-center">Rules</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul>
+                            <li>Hover over a Met card to see a painting</li>
+                            <li>Make a guess about where the painting was found / from</li>
+                            <li>On the map, select a location of your guess / where you think the painting came from</li>
+                            <li>Click on the marker to see the exact coordinates pop up under the confirm button</li>
+                            <li>When you feel confident about your answer, please press the confirm button.</li>
+                            <li>When you are ready to play, press the start button.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class=" col-md-12 text-center">
+                        <button id="start" class="gamebutton btn-danger">Start Game</button>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="left-column" style="display:none">
+            <h2 id="blinking">Guess</h2>
+            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <div class="flipper">
+                    <div class="front">
+                        <!-- front content -->
+
+                        <img src="assets/photos/themnet.png" alt="themet" style="width:280px;height:280px;">
+                    </div>
+                    <div class="back">
+                        <!-- back content -->
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/41IEHKYmcuL._SX425_.jpg" alt="themet" style="width:280px;height:280px;">
+                    </div>
+                </div>
+            </div>
+            <!--<div class="paragraph">
+                <p><strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi ut minus commodi autem quia laudantium ratione rerum labore iure porro optio incidunt nam nulla dolore, culpa quas eveniet aliquid doloribus?</strong></p>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="right-column" style="display:none">
+        <div id="map" style="width:100%;height:400px;"></div>
+        <div id="confirm"></div>
+        <button class="gamebutton btn-danger" id="rightcolumnbutton">Confirm</button>
+    </div>
+    </div>
+
+    <footer>
+        <p><a href="#">Contact Us</a> | <a href="#">Sitemap</a> | <a href="#">Privacy Policy</a></p>
+        <p>&copy;2019 Copyright </p>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <script>
+        //div sub-first_page is removing for the next page
+        console.log("rules")
+
+        $("#start").on("click", function() {
+            $("#rules").css("display", "none");
+            $(".left-column").css("display", "");
+            $(".right-column").css("display", "");
+
+        })
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+
+    <script>
+        function randomLong(long) {
+            long = Math.random() * 100;
+            return long;
+        }
+
+        function randomLatit(latit) {
+            latit = Math.random() * 100;
+
+            return latit;
+        }
+
+        var uluru = {
+            lat: randomLong(10),
+            lng: randomLong(50)
+        };
+
+        function initMap() {
+
+            // The location of Uluru
+            // Make uluru dynamic in order to make the game work!
+            // Also see if you can hook it to firebase
+            // The map, centered at Uluru
+            var map = new google.maps.Map(
+                document.getElementById('map'), {
+                    zoom: 3,
+                    center: {
+                        lat: 43.7696,
+                        lng: 11.2558
+                    },
+                    styles: [{
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#242f3e'
+                        }]
+                    }, {
+                        elementType: 'labels.text.stroke',
+                        stylers: [{
+                            color: '#242f3e'
+                        }]
+                    }, {
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#746855'
+                        }]
+                    }, {
+                        featureType: 'administrative.locality',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#d59563'
+                        }]
+                    }, {
+                        featureType: 'poi',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#d59563'
+                        }]
+                    }, {
+                        featureType: 'poi.park',
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#263c3f'
+                        }]
+                    }, {
+                        featureType: 'poi.park',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#6b9a76'
+                        }]
+                    }, {
+                        featureType: 'road',
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#38414e'
+                        }]
+                    }, {
+                        featureType: 'road',
+                        elementType: 'geometry.stroke',
+                        stylers: [{
+                            color: '#212a37'
+                        }]
+                    }, {
+                        featureType: 'road',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#9ca5b3'
+                        }]
+                    }, {
+                        featureType: 'road.highway',
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#746855'
+                        }]
+                    }, {
+                        featureType: 'road.highway',
+                        elementType: 'geometry.stroke',
+                        stylers: [{
+                            color: '#1f2835'
+                        }]
+                    }, {
+                        featureType: 'road.highway',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#f3d19c'
+                        }]
+                    }, {
+                        featureType: 'transit',
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#2f3948'
+                        }]
+                    }, {
+                        featureType: 'transit.station',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#d59563'
+                        }]
+                    }, {
+                        featureType: 'water',
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#17263c'
+                        }]
+                    }, {
+                        featureType: 'water',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#515c6d'
+                        }]
+                    }, {
+                        featureType: 'water',
+                        elementType: 'labels.text.stroke',
+                        stylers: [{
+                            color: '#17263c'
+                        }]
+                    }]
+
+
+
+
+
+                });
+            // The marker, positioned at Uluru
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: 43.7696,
+                    lng: 11.2558
+                },
+                map: map,
+                draggable: true,
+                animation: google.maps.Animation.DROP,
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                console.log("Your location is currently" + marker.getPosition());
+                $("#confirm").html("Your location is currently" + marker.getPosition() + ". Please press the confirm button if this is your final guess.")
+            });
+
+
+            marker.addListener('click', toggleBounce)
+
+            function toggleBounce() {
+                if (marker.getAnimation() !== null) {
+                    marker.setAnimation(null);
+                } else {
+                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                }
+
+            }
+
+        }
+
+        function drop() {
+            for (var i = 0; i < markerArray.length; i++) {
+                setTimeout(function() {
+                    addMarkerMethod();
+                }, i * 200);
+            }
+        }
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyAydVq_2_4NvSDanta6Z-OiWCojqKwwG70",
+            authDomain: "geoguess-4f147.firebaseapp.com",
+            databaseURL: "https://geoguess-4f147.firebaseio.com",
+            projectId: "geoguess-4f147",
+            storageBucket: "geoguess-4f147.appspot.com",
+            messagingSenderId: "887901867676",
+            appId: "1:887901867676:web:3c25769681fce4bf"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        var database = firebase.database();
+
+        database.ref().set({
+            position: {
+                lng: 43.7696,
+                lat: 11.2558
+            }
+        })
+    </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHeAalyyUVCl_jItqwWPfSvl-8z43zKgY&callback=initMap">
+    </script>
+
+
+
+</body>
+
+</html>
