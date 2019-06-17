@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Eater|Fredericka+the+Great&display=swap" rel="stylesheet">
+
     <title>Game</title>
 
 </head>
@@ -12,7 +14,7 @@
 <body>
     <header>
         <div class="header"></div>
-        <h1>Game</h1>
+        <h1 id="game">Game</h1>
         <nav>
             <ul class="nav inline-items">
                 <li><strong><a href="#">Home</a></strong></li>
@@ -23,9 +25,22 @@
     </header>
 
     <div class="columns-container">
+        <div id="rules">
+            <p><strong>Welcome to our game, here is how to play: </strong></p>
+            <h2>Rules</h2>
+            <ul>
+                <li>Hover over a Met card to see a painting</li>
+                <li>Make a guess about where the painting was found / from</li>
+                <li>On the map, select a location of your guess / where you think the painting came from</li>
+                <li>Click on the marker to see the exact coordinates pop up under the confirm button</li>
+                <li>When you feel confident about your answer, please press the confirm button.</li>
+                <li>When you are ready to play, press the start button.</li>
+            </ul>
+            <button id="start" class="btn-danger">Start Game</button>
 
-        <div class="left-column">
-            <h2>Guess</h2>
+        </div>
+        <div class="left-column" style="display:none">
+            <h2 id="blinking">Guess</h2>
             <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
                 <div class="flipper">
                     <div class="front">
@@ -39,15 +54,16 @@
                     </div>
                 </div>
             </div>
-            <div class="paragraph">
+            <!--<div class="paragraph">
                 <p><strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi ut minus commodi autem quia laudantium ratione rerum labore iure porro optio incidunt nam nulla dolore, culpa quas eveniet aliquid doloribus?</strong></p>
-            </div>
+            </div> -->
         </div>
     </div>
 
-    <div class="right-column">
+    <div class="right-column" style="display:none">
         <div id="map" style="width:100%;height:400px;"></div>
-        <button class="gamebutton btn-danger" id="rightcolumnbutton">Button</button>
+        <button class="gamebutton btn-danger" id="rightcolumnbutton">Confirm</button>
+        <div id="confirm"></div>
     </div>
     </div>
 
@@ -55,6 +71,23 @@
         <p><a href="#">Contact Us</a> | <a href="#">Sitemap</a> | <a href="#">Privacy Policy</a></p>
         <p>&copy;2019 Copyright </p>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <script>
+        //div sub-first_page is removing for the next page
+        console.log("rules")
+
+        $("#start").on("click", function() {
+            $("#rules").css("display", "none");
+            $(".left-column").css("display", "");
+            $(".right-column").css("display", "");
+
+        })
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+
     <script>
         function randomLong(long) {
             long = Math.random() * 100;
@@ -81,7 +114,118 @@
             var map = new google.maps.Map(
                 document.getElementById('map'), {
                     zoom: 3,
-                    center: uluru
+                    center: uluru,
+                    styles: [{
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#242f3e'
+                        }]
+                    }, {
+                        elementType: 'labels.text.stroke',
+                        stylers: [{
+                            color: '#242f3e'
+                        }]
+                    }, {
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#746855'
+                        }]
+                    }, {
+                        featureType: 'administrative.locality',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#d59563'
+                        }]
+                    }, {
+                        featureType: 'poi',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#d59563'
+                        }]
+                    }, {
+                        featureType: 'poi.park',
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#263c3f'
+                        }]
+                    }, {
+                        featureType: 'poi.park',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#6b9a76'
+                        }]
+                    }, {
+                        featureType: 'road',
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#38414e'
+                        }]
+                    }, {
+                        featureType: 'road',
+                        elementType: 'geometry.stroke',
+                        stylers: [{
+                            color: '#212a37'
+                        }]
+                    }, {
+                        featureType: 'road',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#9ca5b3'
+                        }]
+                    }, {
+                        featureType: 'road.highway',
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#746855'
+                        }]
+                    }, {
+                        featureType: 'road.highway',
+                        elementType: 'geometry.stroke',
+                        stylers: [{
+                            color: '#1f2835'
+                        }]
+                    }, {
+                        featureType: 'road.highway',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#f3d19c'
+                        }]
+                    }, {
+                        featureType: 'transit',
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#2f3948'
+                        }]
+                    }, {
+                        featureType: 'transit.station',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#d59563'
+                        }]
+                    }, {
+                        featureType: 'water',
+                        elementType: 'geometry',
+                        stylers: [{
+                            color: '#17263c'
+                        }]
+                    }, {
+                        featureType: 'water',
+                        elementType: 'labels.text.fill',
+                        stylers: [{
+                            color: '#515c6d'
+                        }]
+                    }, {
+                        featureType: 'water',
+                        elementType: 'labels.text.stroke',
+                        stylers: [{
+                            color: '#17263c'
+                        }]
+                    }]
+
+
+
+
+
                 });
             // The marker, positioned at Uluru
             var marker = new google.maps.Marker({
@@ -90,6 +234,12 @@
                 draggable: true,
                 animation: google.maps.Animation.DROP,
             });
+            google.maps.event.addListener(marker, 'click', function() {
+                console.log("Your location is currently" + marker.getPosition());
+                $("#confirm").html("Your location is currently" + marker.getPosition() + ". Please press the confirm button if this is your final guess.")
+            });
+
+
             marker.addListener('click', toggleBounce)
 
             function toggleBounce() {
@@ -130,16 +280,10 @@
         })
     </script>
 
-    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
-
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHeAalyyUVCl_jItqwWPfSvl-8z43zKgY&callback=initMap">
     </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
-    <script src="met.js" type="text/javascript"></script>
 
 </body>
 

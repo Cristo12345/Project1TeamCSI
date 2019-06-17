@@ -1,0 +1,202 @@
+    html {
+        box-sizing: border-box;
+    }
+    
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+    
+    body {
+        margin: 0 auto;
+        background: url("photos/metpic.jpg") no-repeat fixed center;
+        background-size: cover;
+        color: white;
+    }
+    
+    .paragraph {
+        font-size: 20px;
+        color: pink;
+        background-color: black;
+        font-family: 'Eater', cursive;
+    }
+    
+    footer,
+    header {
+        position: relative;
+        clear: both;
+        background-color: firebrick;
+        color: white;
+    }
+    
+    .left-column,
+    .right-column,
+    footer,
+    header {
+        border: 1px solid #ccc;
+        padding: 1.25em;
+        margin: .5em;
+        text-align: center;
+    }
+    
+    .nav {
+        list-style: none;
+        margin-left: 0;
+        margin-bottom: 0;
+        padding-left: 0;
+    }
+    
+    .nav>li,
+    .nav>li>a {
+        display: inline-block;
+        display: inline;
+        zoom: 1;
+    }
+    
+    .inline-items {
+        margin-top: 0;
+    }
+    
+    .inline-items li {
+        margin-left: 0;
+        border-left: 1px solid black;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: white;
+    }
+    
+    .inline-items li:first-child {
+        margin-left: 0;
+        border: none;
+        padding-left: 0;
+        padding-right: 10px;
+    }
+    
+    .inline-items li:last-child {
+        padding-right: 0;
+    }
+    
+    a {
+        color: white;
+    }
+    
+    img#image {
+        border: 10px solid black;
+    }
+    
+    button#rightcolumnbutton {
+        margin-top: 5px;
+    }
+    
+    .flip-container {
+        perspective: 1000px;
+    }
+    
+    div#rules {
+        border: 1px solid white;
+        padding: 50px;
+        margin-bottom: 200px;
+        position: relative;
+        left: 450px;
+    }
+    /* flip the pane when hovered */
+    
+    .flip-container:hover .flipper,
+    .flip-container.hover .flipper {
+        transform: rotateY(180deg);
+    }
+    
+    .flip-container,
+    .front,
+    .back {
+        width: 320px;
+        height: 480px;
+    }
+    /* flip speed goes here */
+    
+    .flipper {
+        transition: 0.6s;
+        transform-style: preserve-3d;
+        position: relative;
+    }
+    /* hide back of pane during swap */
+    
+    .front,
+    .back {
+        backface-visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    /* front pane, placed above back */
+    
+    .front {
+        z-index: 2;
+        /* for firefox 31 */
+        transform: rotateY(0deg);
+    }
+    /* back, initially hidden pane */
+    
+    .back {
+        transform: rotateY(180deg);
+    }
+    
+    .gamebutton {
+        width: 100%;
+    }
+    
+    #game {
+        font-family: "fts";
+        letter-spacing: 5px;
+    }
+    /* MEDIA QUERIES */
+    
+    @media screen and (min-width: 47.5em) {
+        .columns-container {
+            float: left;
+        }
+        .left-column {
+            margin-right: 20em;
+            float: left;
+        }
+        .right-column {
+            width: 38.75em;
+            margin-left: -19.3em;
+            float: left;
+        }
+    }
+    /* CUSTOM FONTS  */
+    
+    @font-face {
+        src: url(FutureTimeSplitters.otf);
+        font-family: fts;
+    }
+    /* Font blinking*/
+    
+    #blinking {
+        animation: blinkingText 0.8s infinite;
+        font-size: 50px;
+        text-align: center;
+        background-color: black;
+    }
+    
+    @keyframes blinkingText {
+        0% {
+            color: red;
+        }
+        49% {
+            color: red;
+        }
+        50% {
+            color: red;
+        }
+        99% {
+            color: transparent;
+        }
+        100% {
+            color: red;
+        }
+    }
+    
+    Collapse Message Input
