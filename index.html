@@ -70,7 +70,6 @@
                 <div class="flipper">
                     <div class="front">
                         <!-- front content -->
-
                         <img src="assets/photos/themnet.png" alt="themet" style="width:280px;height:280px;">
                     </div>
                     <div class="back">
@@ -79,9 +78,8 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="paragraph">
-                <p><strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi ut minus commodi autem quia laudantium ratione rerum labore iure porro optio incidunt nam nulla dolore, culpa quas eveniet aliquid doloribus?</strong></p>
-            </div> -->
+
+
         </div>
     </div>
 
@@ -108,17 +106,6 @@
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
-    <script>
-        $("#start").on("click", function() {
-            countdown();
-            $("#rules").css("display", "none");
-            $(".left-column").css("display", "");
-            $(".right-column").css("display", "");
-        })
-        var randomPainting = paintingsArray[Math.floor(Math.random() * paintingsArray.length)];
-        console.log(randomPainting);
-        $("#card-back").attr("src", randomPainting.source);
-    </script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
@@ -137,6 +124,23 @@
         firebase.initializeApp(firebaseConfig);
 
         var database = firebase.database();
+
+        $("#start").on("click", function() {
+            countdown();
+            $("#rules").css("display", "none");
+            $(".left-column").css("display", "");
+            $(".right-column").css("display", "");
+        })
+        var randomPainting = paintingsArray[Math.floor(Math.random() * paintingsArray.length)];
+        $("#card-back").attr("src", randomPainting.source);
+        // console.log(randomPainting.lat)
+        // console.log(randomPainting.log)
+        database.ref().set({
+            lat: randomPainting.lat,
+            lng: randomPainting.log
+        })
+
+
 
         var data = {
             sender: null,
@@ -325,24 +329,22 @@
 
             google.maps.event.addListener(map, 'click', function(event) {
                 placeMarker(map, event.latLng);
-                console.log(event.latLng);
 
                 map.setCenter(event.latLng);
                 $("#confirm").html("Your location is currently " + event.latLng + ". Please press the confirm button if this is your final guess.");
-
-
-                $("#confirmbtn").on("click", function() {
-                    database.ref().push({
-                        position: marker.position
-                    })
-
-                })
 
                 $("#remove").on("click", function() {
                     marker.setMap(null);
                     $("#confirm").html('')
                 })
                 marker.addListener('click', toggleBounce);
+                database.ref().on('value', function(snapshot) {
+                    console.log(snapshot.val());
+                    var sv = snapshot.val();
+                    $("#confirmbtn").on("click", function() {
+                        placeMarker(map, sv)
+                    })
+                })
             });
 
             function toggleBounce() {
