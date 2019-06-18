@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
     <link href="https://fonts.googleapis.com/css?family=Eater|Fredericka+the+Great&display=swap" rel="stylesheet">
+    <script src="assets/javascript/timer.js"></script>
 
     <title>Game</title>
 
@@ -109,10 +110,10 @@
 
     <script>
         $("#start").on("click", function() {
+            countdown();
             $("#rules").css("display", "none");
             $(".left-column").css("display", "");
             $(".right-column").css("display", "");
-
         })
     </script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
@@ -121,156 +122,189 @@
 
     <script>
         var firebaseConfig = {
-            apiKey: "AIzaSyAydVq_2_4NvSDanta6Z-OiWCojqKwwG70",
-            authDomain: "geoguess-4f147.firebaseapp.com",
-            databaseURL: "https://geoguess-4f147.firebaseio.com",
-            projectId: "geoguess-4f147",
-            storageBucket: "geoguess-4f147.appspot.com",
-            messagingSenderId: "887901867676",
-            appId: "1:887901867676:web:3c25769681fce4bf"
+            apiKey: "AIzaSyB420dbXqOitzsFpOadhefGUk4Iz-B9pw4",
+            authDomain: "maps-9e782.firebaseapp.com",
+            databaseURL: "https://maps-9e782.firebaseio.com",
+            projectId: "maps-9e782",
+            storageBucket: "maps-9e782.appspot.com",
+            messagingSenderId: "543986042979",
+            appId: "1:543986042979:web:6f2b6e692246fea2"
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
         var database = firebase.database();
 
-        database.ref().set({
-            position: {
-                lat: 43.7696,
-                lng: 11.2558
-            }
-        })
+        var data = {
+            sender: null,
+            timestamp: null,
+            lat: null,
+            lng: null
+        };
 
+        function makeInfoBox(controlDiv, map) {
+            // Set CSS for the control border.
+            var controlUI = document.createElement('div');
+            controlUI.style.boxShadow = 'rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px';
+            controlUI.style.backgroundColor = '#fff';
+            controlUI.style.border = '2px solid #fff';
+            controlUI.style.borderRadius = '2px';
+            controlUI.style.marginBottom = '22px';
+            controlUI.style.marginTop = '10px';
+            controlUI.style.textAlign = 'center';
+            controlDiv.appendChild(controlUI);
 
-        // database.ref().push({
-        //     position: {
-        //         lat: 43.7696,
-        //         lng: 11.2558
-        //     }
-        // })
+            // Set CSS for the control interior.
+            var controlText = document.createElement('div');
+            controlText.style.color = 'rgb(25,25,25)';
+            controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+            controlText.style.fontSize = '100%';
+            controlText.style.padding = '6px';
+            controlText.textContent =
+                'The map shows all clicks made in the last 10 minutes.';
+            controlUI.appendChild(controlText);
+        }
 
-        database.ref().on("child_added", function(snapshot) {
-            let sv = snapshot.val();
-            // console.log(sv.position);
-        })
+        /**
+         * Starting point for running the program. Authenticates the user.
+         * @param {function()} onAuthSuccess - Called when authentication succeeds.
+         */
+        function initAuthentication(onAuthSuccess) {
+            firebase.auth().signInAnonymously().catch(function(error) {
+                console.log(error.code + ', ' + error.message);
+            }, {
+                remember: 'sessionOnly'
+            });
 
-        var marker;
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    data.sender = user.uid;
+                    onAuthSuccess();
+                } else {
+                    // User is signed out.
+                }
+            });
+        }
 
+        /**
+         * Creates a map object with a click listener and a heatmap.
+         */
         function initMap() {
-            var map = new google.maps.Map(
-                document.getElementById('map'), {
-                    zoom: 1,
-                    center: {
-                        lat: 0,
-                        lng: 0
-                    },
-                    styles: [{
-                        elementType: 'geometry',
-                        stylers: [{
-                            color: '#242f3e'
-                        }]
-                    }, {
-                        elementType: 'labels.text.stroke',
-                        stylers: [{
-                            color: '#242f3e'
-                        }]
-                    }, {
-                        elementType: 'labels.text.fill',
-                        stylers: [{
-                            color: '#746855'
-                        }]
-                    }, {
-                        featureType: 'administrative.locality',
-                        elementType: 'labels.text.fill',
-                        stylers: [{
-                            color: '#d59563'
-                        }]
-                    }, {
-                        featureType: 'poi',
-                        elementType: 'labels.text.fill',
-                        stylers: [{
-                            color: '#d59563'
-                        }]
-                    }, {
-                        featureType: 'poi.park',
-                        elementType: 'geometry',
-                        stylers: [{
-                            color: '#263c3f'
-                        }]
-                    }, {
-                        featureType: 'poi.park',
-                        elementType: 'labels.text.fill',
-                        stylers: [{
-                            color: '#6b9a76'
-                        }]
-                    }, {
-                        featureType: 'road',
-                        elementType: 'geometry',
-                        stylers: [{
-                            color: '#38414e'
-                        }]
-                    }, {
-                        featureType: 'road',
-                        elementType: 'geometry.stroke',
-                        stylers: [{
-                            color: '#212a37'
-                        }]
-                    }, {
-                        featureType: 'road',
-                        elementType: 'labels.text.fill',
-                        stylers: [{
-                            color: '#9ca5b3'
-                        }]
-                    }, {
-                        featureType: 'road.highway',
-                        elementType: 'geometry',
-                        stylers: [{
-                            color: '#746855'
-                        }]
-                    }, {
-                        featureType: 'road.highway',
-                        elementType: 'geometry.stroke',
-                        stylers: [{
-                            color: '#1f2835'
-                        }]
-                    }, {
-                        featureType: 'road.highway',
-                        elementType: 'labels.text.fill',
-                        stylers: [{
-                            color: '#f3d19c'
-                        }]
-                    }, {
-                        featureType: 'transit',
-                        elementType: 'geometry',
-                        stylers: [{
-                            color: '#2f3948'
-                        }]
-                    }, {
-                        featureType: 'transit.station',
-                        elementType: 'labels.text.fill',
-                        stylers: [{
-                            color: '#d59563'
-                        }]
-                    }, {
-                        featureType: 'water',
-                        elementType: 'geometry',
-                        stylers: [{
-                            color: '#17263c'
-                        }]
-                    }, {
-                        featureType: 'water',
-                        elementType: 'labels.text.fill',
-                        stylers: [{
-                            color: '#515c6d'
-                        }]
-                    }, {
-                        featureType: 'water',
-                        elementType: 'labels.text.stroke',
-                        stylers: [{
-                            color: '#17263c'
-                        }]
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: 0,
+                    lng: 0
+                },
+                zoom: 3,
+                styles: [{
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#242f3e'
                     }]
-                });
+                }, {
+                    elementType: 'labels.text.stroke',
+                    stylers: [{
+                        color: '#242f3e'
+                    }]
+                }, {
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#746855'
+                    }]
+                }, {
+                    featureType: 'administrative.locality',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#d59563'
+                    }]
+                }, {
+                    featureType: 'poi',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#d59563'
+                    }]
+                }, {
+                    featureType: 'poi.park',
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#263c3f'
+                    }]
+                }, {
+                    featureType: 'poi.park',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#6b9a76'
+                    }]
+                }, {
+                    featureType: 'road',
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#38414e'
+                    }]
+                }, {
+                    featureType: 'road',
+                    elementType: 'geometry.stroke',
+                    stylers: [{
+                        color: '#212a37'
+                    }]
+                }, {
+                    featureType: 'road',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#9ca5b3'
+                    }]
+                }, {
+                    featureType: 'road.highway',
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#746855'
+                    }]
+                }, {
+                    featureType: 'road.highway',
+                    elementType: 'geometry.stroke',
+                    stylers: [{
+                        color: '#1f2835'
+                    }]
+                }, {
+                    featureType: 'road.highway',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#f3d19c'
+                    }]
+                }, {
+                    featureType: 'transit',
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#2f3948'
+                    }]
+                }, {
+                    featureType: 'transit.station',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#d59563'
+                    }]
+                }, {
+                    featureType: 'water',
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#17263c'
+                    }]
+                }, {
+                    featureType: 'water',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#515c6d'
+                    }]
+                }, {
+                    featureType: 'water',
+                    elementType: 'labels.text.stroke',
+                    stylers: [{
+                        color: '#17263c'
+                    }]
+                }],
+                disableDoubleClickZoom: true,
+                streetViewControl: false,
+            });
 
             function clearMarkers() {
                 setMapOnAll(null);
@@ -296,7 +330,6 @@
                 $("#confirmbtn").on("click", function() {
                     database.ref().push({
                         position: marker.position
-
                     })
 
                 })
@@ -316,20 +349,131 @@
                 }
 
             }
+
+
+            function drop() {
+                for (var i = 0; i < markerArray.length; i++) {
+                    setTimeout(function() {
+                        addMarkerMethod();
+                    }, i * 200);
+                }
+            }
+
+            // Create the DIV to hold the control and call the makeInfoBox() constructor
+            // passing in this DIV.
+            var infoBoxDiv = document.createElement('div');
+            makeInfoBox(infoBoxDiv, map);
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(infoBoxDiv);
+
+            // Listen for clicks and add the location of the click to firebase.
+            map.addListener('click', function(e) {
+                data.lat = e.latLng.lat();
+                data.lng = e.latLng.lng();
+                addToFirebase(data);
+            });
+
+            // Create a heatmap.
+            var heatmap = new google.maps.visualization.HeatmapLayer({
+                data: [],
+                map: map,
+                radius: 16
+            });
+
+            initAuthentication(initFirebase.bind(undefined, heatmap));
         }
 
-        function drop() {
-            for (var i = 0; i < markerArray.length; i++) {
-                setTimeout(function() {
-                    addMarkerMethod();
-                }, i * 200);
-            }
+        /**
+         * Set up a Firebase with deletion on clicks older than expiryMs
+         * @param {!google.maps.visualization.HeatmapLayer} heatmap The heatmap to
+         */
+        function initFirebase(heatmap) {
+
+            // 10 minutes before current time.
+            var startTime = new Date().getTime() - (60 * 10 * 1000);
+
+            // Reference to the clicks in Firebase.
+            var clicks = firebase.database().ref('clicks');
+
+            // Listen for clicks and add them to the heatmap.
+            clicks.orderByChild('timestamp').startAt(startTime).on('child_added',
+                function(snapshot) {
+                    // Get that click from firebase.
+                    var newPosition = snapshot.val();
+                    var point = new google.maps.LatLng(newPosition.lat, newPosition.lng);
+                    var elapsedMs = Date.now() - newPosition.timestamp;
+
+                    // Add the point to the heatmap.
+                    heatmap.getData().push(point);
+
+                    // Request entries older than expiry time (10 minutes).
+                    var expiryMs = Math.max(60 * 10 * 1000 - elapsedMs, 0);
+
+                    // Set client timeout to remove the point after a certain time.
+                    window.setTimeout(function() {
+                        // Delete the old point from the database.
+                        snapshot.ref.remove();
+                    }, expiryMs);
+                }
+            );
+
+            // Remove old data from the heatmap when a point is removed from firebase.
+            clicks.on('child_removed', function(snapshot, prevChildKey) {
+                var heatmapData = heatmap.getData();
+                var i = 0;
+                while (snapshot.val().lat != heatmapData.getAt(i).lat() ||
+                    snapshot.val().lng != heatmapData.getAt(i).lng()) {
+                    i++;
+                }
+                heatmapData.removeAt(i);
+            });
+        }
+
+        /**
+         * Updates the last_message/ path with the current timestamp.
+         * @param {function(Date)} addClick After the last message timestamp has been updated,
+         *     this function is called with the current timestamp to add the
+         *     click to the firebase.
+         */
+        function getTimestamp(addClick) {
+            // Reference to location for saving the last click time.
+            var ref = firebase.database().ref('last_message/' + data.sender);
+
+            ref.onDisconnect().remove(); // Delete reference from firebase on disconnect.
+
+            // Set value to timestamp.
+            ref.set(firebase.database.ServerValue.TIMESTAMP, function(err) {
+                if (err) { // Write to last message was unsuccessful.
+                    console.log(err);
+                } else { // Write to last message was successful.
+                    ref.once('value', function(snap) {
+                        addClick(snap.val()); // Add click with same timestamp.
+                    }, function(err) {
+                        console.warn(err);
+                    });
+                }
+            });
+        }
+
+        /**
+         * Adds a click to firebase.
+         * @param {Object} data The data to be added to firebase.
+         *     It contains the lat, lng, sender and timestamp.
+         */
+        function addToFirebase(data) {
+            getTimestamp(function(timestamp) {
+                // Add the new timestamp to the record data.
+                data.timestamp = timestamp;
+                var ref = firebase.database().ref('clicks').push(data, function(err) {
+                    if (err) { // Data was not written to firebase.
+                        console.warn(err);
+                    }
+                });
+            });
         }
     </script>
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHeAalyyUVCl_jItqwWPfSvl-8z43zKgY&callback=initMap">
     </script>
-    <script src="assets/javascript/timer.js"></script>
 </body>
 
 </html>
