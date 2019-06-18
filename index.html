@@ -374,15 +374,14 @@
 
                 database.ref().on('value', function(snapshot) {
                     // console.log(snapshot.val())
-                    console.log(snapshot.val().lat);
-                    console.log(snapshot.val().lng)
+
                     var sv = snapshot.val();
                     var svLat = snapshot.val().lat;
                     var svLong = snapshot.val().lng;
 
                     $("#confirmbtn").on("click", function() {
                         placeMarker(map, sv)
-                        console.log(calcDistance(userLat, userLng, svLat, svLong));
+                        $("#confirm").html(`Great guess! The actual distance between your point and where the painting was founded is ${calcDistance(userLat, userLng, svLat, svLong)} km`)
                     })
                 })
 
