@@ -42,4 +42,3 @@ function getseconds() {
     // take mins remaining (as seconds) away from total seconds remaining
     return ("0" + (secs - Math.round(mins * 60))).substr(-2);
 }
-countdown();
