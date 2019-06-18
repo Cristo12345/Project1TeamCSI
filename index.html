@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="assets/style.css">
     <link href="https://fonts.googleapis.com/css?family=Eater|Fredericka+the+Great&display=swap" rel="stylesheet">
     <script src="assets/javascript/timer.js"></script>
-
+    <script src="paintings.js" type="text/javascript"></script>
     <title>Game</title>
 
 </head>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="back">
                         <!-- back content -->
-                        <img src="https://images-na.ssl-images-amazon.com/images/I/41IEHKYmcuL._SX425_.jpg" alt="themet" style="width:280px;height:280px;">
+                        <img id="card-back" src="https://images-na.ssl-images-amazon.com/images/I/41IEHKYmcuL._SX425_.jpg" alt="themet" style="width:280px;height:280px;">
                     </div>
                 </div>
             </div>
@@ -115,6 +115,9 @@
             $(".left-column").css("display", "");
             $(".right-column").css("display", "");
         })
+        var randomPainting = paintingsArray[Math.floor(Math.random() * paintingsArray.length)];
+        console.log(randomPainting);
+        $("#card-back").attr("src", randomPainting.source);
     </script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
 
@@ -374,13 +377,13 @@
             });
 
             // Create a heatmap.
-            var heatmap = new google.maps.visualization.HeatmapLayer({
-                data: [],
-                map: map,
-                radius: 16
-            });
+            // var heatmap = new google.maps.visualization.HeatmapLayer({
+            //     data: [],
+            //     map: map,
+            //     radius: 16
+            // });
 
-            initAuthentication(initFirebase.bind(undefined, heatmap));
+            //initAuthentication(initFirebase.bind(undefined, heatmap));
         }
 
         /**
@@ -404,7 +407,7 @@
                     var elapsedMs = Date.now() - newPosition.timestamp;
 
                     // Add the point to the heatmap.
-                    heatmap.getData().push(point);
+                    // heatmap.getData().push(point);
 
                     // Request entries older than expiry time (10 minutes).
                     var expiryMs = Math.max(60 * 10 * 1000 - elapsedMs, 0);
@@ -418,15 +421,15 @@
             );
 
             // Remove old data from the heatmap when a point is removed from firebase.
-            clicks.on('child_removed', function(snapshot, prevChildKey) {
-                var heatmapData = heatmap.getData();
-                var i = 0;
-                while (snapshot.val().lat != heatmapData.getAt(i).lat() ||
-                    snapshot.val().lng != heatmapData.getAt(i).lng()) {
-                    i++;
-                }
-                heatmapData.removeAt(i);
-            });
+            // clicks.on('child_removed', function(snapshot, prevChildKey) {
+            //     var heatmapData = heatmap.getData();
+            //     var i = 0;
+            //     while (snapshot.val().lat != heatmapData.getAt(i).lat() ||
+            //         snapshot.val().lng != heatmapData.getAt(i).lng()) {
+            //         i++;
+            //     }
+            //     heatmapData.removeAt(i);
+            // });
         }
 
         /**
