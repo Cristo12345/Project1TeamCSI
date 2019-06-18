@@ -92,11 +92,6 @@
     .flip-container {
         perspective: 1000px;
     }
-    /* div#rules {
-        border: 1px solid white;
-        padding: 300px;
-        margin-bottom: 200px;
-    } */
     
     #rules {
         background-color: black;
@@ -176,8 +171,18 @@
             margin-left: -19.3em;
             float: left;
         }
+        .timer-column {
+            width: 10em;
+            float: left;
+        }
         #rules {
             float: left;
+        }
+        input#seconds {
+            background-color: transparent;
+        }
+        input#minutes {
+            background-color: transparent;
         }
     }
     /* CUSTOM FONTS  */

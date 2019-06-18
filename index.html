@@ -62,6 +62,9 @@
 
         <div class="left-column" style="display:none">
             <h2 id="blinking">Guess</h2>
+            <input id="minutes" type="text" style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;"><strong style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;">:</strong>
+            <input id="seconds" type="text" style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;">
+
             <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
                 <div class="flipper">
                     <div class="front">
@@ -84,8 +87,18 @@
     <div class="right-column" style="display:none">
         <div id="map" style="width:100%;height:400px;"></div>
         <div id="confirm"></div>
-        <button class="gamebutton btn-danger" id="rightcolumnbutton">Confirm</button>
-    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="gamebutton btn-success" id="confirmbtn">Confirm</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 ">
+                    <button class="gamebutton btn-danger" id="remove">Remove Marker</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -95,9 +108,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
     <script>
-        //div sub-first_page is removing for the next page
-        console.log("rules")
-
         $("#start").on("click", function() {
             $("#rules").css("display", "none");
             $(".left-column").css("display", "");
@@ -110,34 +120,49 @@
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
 
     <script>
-        function randomLong(long) {
-            long = Math.random() * 100;
-            return long;
-        }
-
-        function randomLatit(latit) {
-            latit = Math.random() * 100;
-
-            return latit;
-        }
-
-        var uluru = {
-            lat: randomLong(10),
-            lng: randomLong(50)
+        var firebaseConfig = {
+            apiKey: "AIzaSyAydVq_2_4NvSDanta6Z-OiWCojqKwwG70",
+            authDomain: "geoguess-4f147.firebaseapp.com",
+            databaseURL: "https://geoguess-4f147.firebaseio.com",
+            projectId: "geoguess-4f147",
+            storageBucket: "geoguess-4f147.appspot.com",
+            messagingSenderId: "887901867676",
+            appId: "1:887901867676:web:3c25769681fce4bf"
         };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        var database = firebase.database();
+
+        database.ref().set({
+            position: {
+                lat: 43.7696,
+                lng: 11.2558
+            }
+        })
+
+
+        // database.ref().push({
+        //     position: {
+        //         lat: 43.7696,
+        //         lng: 11.2558
+        //     }
+        // })
+
+        database.ref().on("child_added", function(snapshot) {
+            let sv = snapshot.val();
+            // console.log(sv.position);
+        })
+
+        var marker;
 
         function initMap() {
-
-            // The location of Uluru
-            // Make uluru dynamic in order to make the game work!
-            // Also see if you can hook it to firebase
-            // The map, centered at Uluru
             var map = new google.maps.Map(
                 document.getElementById('map'), {
-                    zoom: 3,
+                    zoom: 1,
                     center: {
-                        lat: 43.7696,
-                        lng: 11.2558
+                        lat: 0,
+                        lng: 0
                     },
                     styles: [{
                         elementType: 'geometry',
@@ -245,29 +270,43 @@
                             color: '#17263c'
                         }]
                     }]
-
-
-
-
-
                 });
-            // The marker, positioned at Uluru
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: 43.7696,
-                    lng: 11.2558
-                },
-                map: map,
-                draggable: true,
-                animation: google.maps.Animation.DROP,
-            });
-            google.maps.event.addListener(marker, 'click', function() {
-                console.log("Your location is currently" + marker.getPosition());
-                $("#confirm").html("Your location is currently" + marker.getPosition() + ". Please press the confirm button if this is your final guess.")
-            });
+
+            function clearMarkers() {
+                setMapOnAll(null);
+            }
+
+            function placeMarker(map, location) {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    draggable: false,
+                    animation: google.maps.Animation.DROP,
+                });
+            }
+
+            google.maps.event.addListener(map, 'click', function(event) {
+                placeMarker(map, event.latLng);
+                console.log(event.latLng);
+
+                map.setCenter(event.latLng);
+                $("#confirm").html("Your location is currently " + event.latLng + ". Please press the confirm button if this is your final guess.");
 
 
-            marker.addListener('click', toggleBounce)
+                $("#confirmbtn").on("click", function() {
+                    database.ref().push({
+                        position: marker.position
+
+                    })
+
+                })
+
+                $("#remove").on("click", function() {
+                    marker.setMap(null);
+                    $("#confirm").html('')
+                })
+                marker.addListener('click', toggleBounce);
+            });
 
             function toggleBounce() {
                 if (marker.getAnimation() !== null) {
@@ -277,7 +316,6 @@
                 }
 
             }
-
         }
 
         function drop() {
@@ -287,34 +325,11 @@
                 }, i * 200);
             }
         }
-
-        var firebaseConfig = {
-            apiKey: "AIzaSyAydVq_2_4NvSDanta6Z-OiWCojqKwwG70",
-            authDomain: "geoguess-4f147.firebaseapp.com",
-            databaseURL: "https://geoguess-4f147.firebaseio.com",
-            projectId: "geoguess-4f147",
-            storageBucket: "geoguess-4f147.appspot.com",
-            messagingSenderId: "887901867676",
-            appId: "1:887901867676:web:3c25769681fce4bf"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        var database = firebase.database();
-
-        database.ref().set({
-            position: {
-                lng: 43.7696,
-                lat: 11.2558
-            }
-        })
     </script>
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHeAalyyUVCl_jItqwWPfSvl-8z43zKgY&callback=initMap">
     </script>
-
-
-
+    <script src="assets/javascript/timer.js"></script>
 </body>
 
 </html>
