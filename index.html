@@ -110,10 +110,10 @@
 
     <script>
         $("#start").on("click", function() {
+            countdown();
             $("#rules").css("display", "none");
             $(".left-column").css("display", "");
             $(".right-column").css("display", "");
-            countdown();
         })
     </script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
@@ -330,7 +330,6 @@
                 $("#confirmbtn").on("click", function() {
                     database.ref().push({
                         position: marker.position
-
                     })
 
                 })
