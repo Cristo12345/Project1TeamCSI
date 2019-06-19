@@ -29,7 +29,7 @@ var paintingsArray = [{
         year: "1295",
         source: "https://collectionapi.metmuseum.org/api/collection/v1/iiif/40081/198958/main-image",
         link: "",
-        ID: 198958,
+        ID: 40081,
         lat: 30.29365,
         log: 120.16142,
     },
@@ -62,9 +62,8 @@ for (let i = 0; i < paintingsArray.length; i++) {
 
     $.ajax({
         url: queryURL,
-        method:"GET"
+        method: "GET"
     }).then(function(response) {
         paintingsArray[i].link += response.objectURL;
     })
 }
-
