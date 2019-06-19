@@ -24,7 +24,7 @@ var paintingsArray = [{
         year: "1467",
         source: "https://archive.shine.cn/newsimage/2016/07/22/020160722210459.bmp",
         lat: 29.5594,
-        log: 115.9934,
+        log: 115.9934
     },
 
     {
@@ -33,7 +33,7 @@ var paintingsArray = [{
         year: "1939",
         source: "https://www.fridakahlo.org/images/paintings/the-two-fridas.jpg",
         lat: 19.4326,
-        log: 99.1332,
+        log: 99.1332
     },
 
     {
@@ -42,6 +42,6 @@ var paintingsArray = [{
         year: "1930",
         source: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg/800px-Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg",
         lat: 41.587830982,
-        log: -93.61916419,
+        log: -93.61916419
     }
 ];
