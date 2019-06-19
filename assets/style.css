@@ -67,10 +67,7 @@
         color: white;
     }
     
-    header,
-    footer,
-    .left-column,
-    .right-column {
+    header {
         border: 1px solid #ccc;
         padding: 1.25em;
         margin: .5em;
@@ -175,23 +172,18 @@
     .col-md-3 {
         border: 5px solid white;
     }
+    
+    .modal .modal-xl {
+        height: 730px;
+    }
+    
+    .left {
+        height: 450px;
+    }
     /* MEDIA QUERIES */
     
     @media screen and (min-width: 47.5em) {
         .columns-container {
-            float: left;
-        }
-        .left-column {
-            margin-right: 20em;
-            float: left;
-        }
-        .right-column {
-            width: 38.75em;
-            margin-left: -4.3em;
-            float: left;
-        }
-        .timer-column {
-            width: 10em;
             float: left;
         }
         #rules {
