@@ -10,7 +10,6 @@
     <script src="assets/javascript/timer.js"></script>
     <script src="paintings.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-
     <title>Game</title>
 
 </head>
@@ -57,11 +56,9 @@
                 <div class="row">
                     <div class=" col-md-12 text-center">
                         <button id="start" class="gamebutton btn-danger">Start Game</button>
-
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="container">
             <div class="row">
@@ -76,18 +73,15 @@
                             <div class="flipper">
                                 <div class="front">
                                     <!-- front content -->
-
-                                    <img src="assets/photos/themnet.png" alt="themet" style="width:250px;height:250px;">
+                                    <img id="card-front" src="assets/photos/themnet.png" alt="themet" style="width:250px;height:250px;">
                                 </div>
                                 <div class="back">
                                     <!-- back content -->
-                                    <img id="card-back" src="https://images-na.ssl-images-amazon.com/images/I/41IEHKYmcuL._SX425_.jpg" alt="themet" style="width:250px;height:250px;">
+                                    <img id="card-back" src="" alt="themet" style="width:250px;height:250px;">
+                                    <div id="popper"></div>
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="paragraph">
-                            <p><strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi ut minus commodi autem quia laudantium ratione rerum labore iure porro optio incidunt nam nulla dolore, culpa quas eveniet aliquid doloribus?</strong></p>
-                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -95,7 +89,6 @@
                         <h1>Hints</h1>
                     </div>
                 </div>
-
 
                 <div class="col-md-6">
                     <div class="right" style="display:none">
@@ -111,9 +104,6 @@
                                 <button class="gamebutton btn-danger" id="remove">Remove Marker</button>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
@@ -155,8 +145,6 @@
         })
         var randomPainting = paintingsArray[Math.floor(Math.random() * paintingsArray.length)];
         $("#card-back").attr("src", randomPainting.source);
-        // console.log(randomPainting.lat)
-        // console.log(randomPainting.log)
         database.ref().set({
             lat: randomPainting.lat,
             lng: randomPainting.log
@@ -218,6 +206,8 @@
          * Creates a map object with a click listener and a heatmap.
          */
         function initMap() {
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {
                     lat: 0,
@@ -333,11 +323,11 @@
                 disableDoubleClickZoom: true,
                 streetViewControl: false,
             });
+            directionsDisplay.setMap(map);
 
             function clearMarkers() {
                 setMapOnAll(null);
             }
-
 
             function placeMarker(map, location) {
                 marker = new google.maps.Marker({
@@ -346,9 +336,7 @@
                     draggable: false,
                     animation: google.maps.Animation.DROP,
                 });
-
             }
-
 
 
             function calcDistance(fromLat, fromLng, toLat, toLng) {
@@ -371,6 +359,31 @@
                 })
                 marker.addListener('click', toggleBounce);
 
+                // start
+                function calculateAndDisplayRoute(val, val2, directionsService, directionsDisplay) {
+                    var waypts = [];
+
+                    var start = `${randomPainting.lat}, ${randomPainting.log}`;
+
+                    var request = {
+                        origin: marker.getPosition(),
+                        destination: {
+                            lat: val,
+                            lng: val2
+                        },
+                        // optimizeWaypoints: true,
+                        travelMode: 'WALKING'
+                    }
+                    directionsService.route(request, function(response, status) {
+                        if (status === 'OK') {
+                            directionsDisplay.setDirections(response);
+                            var route = response.routes[0];
+                            // For each route, display summary information.
+                        } else {
+                            window.alert('Directions request failed due to ' + status);
+                        }
+                    });
+                }
 
                 database.ref().on('value', function(snapshot) {
                     // console.log(snapshot.val())
@@ -382,6 +395,7 @@
                     $("#confirmbtn").on("click", function() {
                         placeMarker(map, sv)
                         $("#confirm").html(`Great guess! The actual distance between your point and where the painting was founded is ${calcDistance(userLat, userLng, svLat, svLong)} km`)
+                        calculateAndDisplayRoute(userLat, userLng, directionsService, directionsDisplay);
                     })
                 })
 
@@ -417,20 +431,10 @@
                 addToFirebase(data);
             });
 
-            // Create a heatmap.
-            // var heatmap = new google.maps.visualization.HeatmapLayer({
-            //     data: [],
-            //     map: map,
-            //     radius: 16
-            // });
 
-            //initAuthentication(initFirebase.bind(undefined, heatmap));
         }
 
-        /**
-         * Set up a Firebase with deletion on clicks older than expiryMs
-         * @param {!google.maps.visualization.HeatmapLayer} heatmap The heatmap to
-         */
+
         function initFirebase(heatmap) {
 
             // 10 minutes before current time.
@@ -515,6 +519,7 @@
                 });
             });
         }
+
 
 
         // function to calculate score

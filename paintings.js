@@ -6,7 +6,7 @@ var paintingsArray = [{
         year: "1503-1506",
         source: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/687px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg",
         lat: 43.7696,
-        log: 11.2558
+        log: 11.2558,
     },
 
     {
@@ -15,7 +15,7 @@ var paintingsArray = [{
         year: "1889",
         source: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/450px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
         lat: 43.7766,
-        log: 4.8352
+        log: 4.8352,
     },
 
     {
@@ -25,7 +25,6 @@ var paintingsArray = [{
         source: "https://archive.shine.cn/newsimage/2016/07/22/020160722210459.bmp",
         lat: 29.5594,
         log: 115.9934,
-
     },
 
     {
@@ -34,7 +33,7 @@ var paintingsArray = [{
         year: "1939",
         source: "https://www.fridakahlo.org/images/paintings/the-two-fridas.jpg",
         lat: 19.4326,
-        log: 99.1332
+        log: 99.1332,
     },
 
     {
@@ -43,7 +42,6 @@ var paintingsArray = [{
         year: "1930",
         source: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg/800px-Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg",
         lat: 41.587830982,
-        log: -93.61916419
-
+        log: -93.61916419,
     }
 ];
