@@ -85,7 +85,6 @@
                                 <div class="back">
                                     <!-- back content -->
                                     <img id="card-back" src="" alt="themet" style="width:250px;height:250px;">
-                                    <div id="popper"></div>
                                 </div>
                             </div>
                         </div>
@@ -95,6 +94,23 @@
                     <div class="middle" style="display:none">
                         <h1>Hints</h1>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div id="box1" style="border: 2px solid red; background-color: white; display: none;padding: 5px;">Year</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="box2" style="border: 2px solid red; background-color: white; display: none;padding: 5px;">Picture </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="box3" style="border: 2px solid red; background-color: white; display: none;padding: 5px;">Artist</div>
+                        </div>
+                    </div>
+                    <button id="toggleButton" type="hintbutton" value="Show me the hints" onclick="counter++; toggle4('box');">Show me the hints</button>
                 </div>
 
                 <div class="col-md-6">
@@ -153,6 +169,30 @@
         })
         var randomPainting = paintingsArray[Math.floor(Math.random() * paintingsArray.length)];
         $("#card-back").attr("src", randomPainting.source);
+
+        var counter = 0;
+        var numHints = 3;
+
+        function toggle4(showHideDiv) {
+            var ele = document.getElementById(showHideDiv + counter);
+            if (ele.style.display == "block") {
+                ele.style.display = "none";
+            } else {
+                ele.style.display = "block";
+            }
+            if (counter == numHints) {
+                document.getElementById("toggleButton").style.display = "none";
+            }
+        }
+
+        $("#toggleButton").on("click", function() {
+            $("#box1").html(`Year: ${randomPainting.year}`);
+            $("#box2").html(`Title: ${randomPainting.name}`)
+            $("#box3").html(`Artist: ${randomPainting.artist}`)
+        });
+
+
+
         database.ref().set({
             lat: randomPainting.lat,
             lng: randomPainting.log
