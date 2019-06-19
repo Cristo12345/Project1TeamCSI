@@ -15,13 +15,6 @@
         color: white;
     }
     
-    .paragraph {
-        font-size: 20px;
-        color: pink;
-        background-color: black;
-        font-family: 'Eater', cursive;
-    }
-    
     footer,
     header {
         position: relative;
@@ -30,9 +23,50 @@
         color: white;
     }
     
-    .left-column,
-    .right-column,
-    footer,
+    .paragraph {
+        font-size: 20px;
+        color: pink;
+        background-color: black;
+        font-family: 'Eater', cursive;
+    }
+    
+    a {
+        color: white;
+    }
+    
+    img#image {
+        border: 10px solid black;
+    }
+    
+    button#rightcolumnbutton {
+        margin-top: 5px;
+    }
+    
+    #rules {
+        background-color: black;
+        border: 1px solid white;
+        width: 100%;
+        margin-bottom: 300px;
+        padding: 50px;
+    }
+    
+    #game {
+        font-family: "fts";
+        letter-spacing: 5px;
+    }
+    
+    #blinking {
+        animation: blinkingText 0.8s infinite;
+        font-size: 50px;
+        text-align: center;
+        background-color: black;
+    }
+    
+    #confirm {
+        background-color: black;
+        color: white;
+    }
+    
     header {
         border: 1px solid #ccc;
         padding: 1.25em;
@@ -77,30 +111,8 @@
         padding-right: 0;
     }
     
-    a {
-        color: white;
-    }
-    
-    img#image {
-        border: 10px solid black;
-    }
-    
-    button#rightcolumnbutton {
-        margin-top: 5px;
-    }
-    
     .flip-container {
         perspective: 1000px;
-    }
-    
-    #rules {
-        background-color: black;
-        border: 1px solid white;
-        width: 100%;
-        margin-bottom: 300px;
-        padding: 50px;
-        /* position: relative;
-        left: 250px; */
     }
     /* flip the pane when hovered */
     
@@ -148,32 +160,30 @@
         width: 100%;
     }
     
-    #game {
-        font-family: "fts";
-        letter-spacing: 5px;
+    .middle {
+        border: 0.8 solid white;
+        text-align: center;
     }
     
-    #confirm {
-        background-color: black;
-        color: white;
+    .col-md-6 {
+        border: 5px solid white;
+    }
+    
+    .col-md-3 {
+        border: 5px solid white;
+    }
+    
+    .modal .modal-xl {
+        height: 730px;
+    }
+    
+    .left {
+        height: 450px;
     }
     /* MEDIA QUERIES */
     
     @media screen and (min-width: 47.5em) {
         .columns-container {
-            float: left;
-        }
-        .left-column {
-            margin-right: 20em;
-            float: left;
-        }
-        .right-column {
-            width: 38.75em;
-            margin-left: -4.3em;
-            float: left;
-        }
-        .timer-column {
-            width: 10em;
             float: left;
         }
         #rules {
@@ -193,13 +203,6 @@
         font-family: fts;
     }
     /* Font blinking*/
-    
-    #blinking {
-        animation: blinkingText 0.8s infinite;
-        font-size: 50px;
-        text-align: center;
-        background-color: black;
-    }
     
     @keyframes blinkingText {
         0% {
