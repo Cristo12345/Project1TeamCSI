@@ -6,7 +6,7 @@ function countdown() {
     timeout = setTimeout('Decrement()', 1000);
 }
 // THE MAGIC BEGIN HERE
-var colors = ["red", "green", "blue", "cyan", "magenta", "yellow", "black"];
+var colors = ["red", "green", "blue", "cyan", "magenta", "yellow", "white"];
 var currentColorIndex = 0;
 
 function Decrement() {
@@ -26,7 +26,10 @@ function Decrement() {
         secs--;
         if (secs < 0) {
             clearTimeout(timeout);
-            return;
+            $("#confirm").html(
+                `Better luck next time. Your score is 0 points.`
+            );
+            return $("#timer").html(`<h2 style='color:white'><strong>Time's up!</strong></h2>`);
         }
         countdown();
     }
@@ -41,4 +44,8 @@ function getminutes() {
 function getseconds() {
     // take mins remaining (as seconds) away from total seconds remaining
     return ("0" + (secs - Math.round(mins * 60))).substr(-2);
+}
+
+function stop() {
+    clearTimeout(timeout);
 }

@@ -3,14 +3,12 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
     <link href="https://fonts.googleapis.com/css?family=Eater|Fredericka+the+Great&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="assets/javascript/timer.js"></script>
-    <script src="paintings.js" type="text/javascript"></script>
+    <script src="assets/javascript/paintings.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <title>Game</title>
 
@@ -19,17 +17,10 @@
 <body>
     <header>
         <div class="header"></div>
-        <h1 id="game">Game</h1>
-        <nav>
-            <ul class="nav inline-items">
-                <li><strong><a href="#">Home</a></strong></li>
-                <li><strong><a href="#">Blog</a></strong></li>
-                <li><strong><a href="#">Game</a></strong></li>
-            </ul>
-        </nav>
+        <h1 id="game">ArtTrackr</h1>
     </header>
 
-    <div class="container">
+    <div class="container-fluid mt-5">
         <div id="rules">
             <div class="container">
                 <div class="row">
@@ -63,28 +54,25 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
                     <div class="left" style="display:none">
                         <h2 id="blinking">Guess</h2>
-                        <div class="text-center">
-                            <input id="minutes" type="text"
-                                style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;"><strong
-                                style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;">:</strong>
-                            <input id="seconds" type="text"
-                                style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;">
-                        </div>
+                        <!-- <div id="timer" class="text-center">
+                            <input id="minutes" type="text" style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;"><strong style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;">:</strong>
+                            <input id="seconds" type="text" style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;">
+                        </div> -->
                         <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
                             <div class="flipper">
                                 <div class="front">
                                     <!-- front content -->
-                                    <img id="card-front" src="assets/photos/themnet.png" alt="themet"
-                                        style="width:250px;height:250px;">
+                                    <img id="card-front" src="assets/photos/themnet.png" alt="themet" style="width:280px;height:280px;margin-left: 45px">
                                 </div>
                                 <div class="back">
                                     <!-- back content -->
-                                    <img id="card-back" src="" alt="themet" style="width:250px;height:250px;">
+                                    <img id="card-back" src="" alt="themet" style="width:280px;height:280px;margin-left: 45px">
+
                                 </div>
                             </div>
                         </div>
@@ -92,25 +80,27 @@
                 </div>
                 <div class="col-md-3">
                     <div class="middle" style="display:none">
-                        <h1>Hints</h1>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
+                        <h1 id="blinking">Hints</h1>
+                        <div class="row mt-3">
+                            <div class="col-12">
 
-                            <div id="box1" style="border: 2px solid red; background-color: white; display: none;padding: 5px;">Year</div>
+                                <div id="box1" style="border: 2px solid red; background-color: white; display: none;padding: 45px; font-size: 20px">Year</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div id="box2" style="border: 2px solid red; background-color: white; display: none;padding: 5px;">Picture </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="box2" style="border: 2px solid red; background-color: white; display: none;padding: 45px; font-size: 20px">Picture </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div id="box3" style="border: 2px solid red; background-color: white; display: none;padding: 5px;">Artist</div>
+                        <br>
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="box3" style="border: 2px solid red; background-color: white; display: none;padding: 45px; font-size: 20px">Artist</div>
+                            </div>
                         </div>
+                        <button class="btn-danger" id="toggleButton" type="hintbutton" value="Show me the hints" onclick="counter++; toggle4('box');">Show me the hints</button>
                     </div>
-                    <button id="toggleButton" type="hintbutton" value="Show me the hints" onclick="counter++; toggle4('box');">Show me the hints</button>
                 </div>
 
                 <div class="col-md-6">
@@ -127,23 +117,26 @@
                                 <button class="gamebutton btn-danger" id="remove">Remove Marker</button>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="timer" class="text-center mt-2" style="background-color: black">
+                                    <input id="minutes" type="text" style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;"><strong style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;color: white">:</strong>
+                                    <input id="seconds" type="text" style="width: 80px; border: none; background-color:none; font-size: 50px; font-weight: bold;">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     </div>
-    <footer>
-        <p><a href="#">Contact Us</a> | <a href="#">Sitemap</a> | <a href="#">Privacy Policy</a></p>
-        <p>&copy;2019 Copyright </p>
-    </footer>
 
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
 
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHeAalyyUVCl_jItqwWPfSvl-8z43zKgY&callback=initMap&libraries=geometry">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHeAalyyUVCl_jItqwWPfSvl-8z43zKgY&callback=initMap&libraries=geometry">
     </script>
     <script>
         var firebaseConfig = {
@@ -160,7 +153,7 @@
 
         var database = firebase.database();
 
-        $("#start").on("click", function () {
+        $("#start").on("click", function() {
             countdown();
             $("#rules").css("display", "none");
             $(".left").css("display", "");
@@ -225,7 +218,7 @@
             controlText.style.fontSize = '100%';
             controlText.style.padding = '6px';
             controlText.textContent =
-                'The map shows all clicks made in the last 10 minutes.';
+                'To change your marker, you must remove it then add a new one.';
             controlUI.appendChild(controlText);
         }
 
@@ -234,13 +227,13 @@
          * @param {function()} onAuthSuccess - Called when authentication succeeds.
          */
         function initAuthentication(onAuthSuccess) {
-            firebase.auth().signInAnonymously().catch(function (error) {
+            firebase.auth().signInAnonymously().catch(function(error) {
                 console.log(error.code + ', ' + error.message);
             }, {
                 remember: 'sessionOnly'
             });
 
-            firebase.auth().onAuthStateChanged(function (user) {
+            firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     data.sender = user.uid;
                     onAuthSuccess();
@@ -393,7 +386,7 @@
             }
 
 
-            google.maps.event.addListener(map, 'click', function (event) {
+            google.maps.event.addListener(map, 'click', function(event) {
                 var userLat = event.latLng.lat();
                 var userLng = event.latLng.lng();
                 placeMarker(map, event.latLng);
@@ -402,7 +395,7 @@
                 $("#confirm").html("Your location is currently " + event.latLng +
                     ". Please press the confirm button if this is your final guess.");
 
-                $("#remove").on("click", function () {
+                $("#remove").on("click", function() {
                     marker.setMap(null);
                     $("#confirm").html('')
                 })
@@ -423,43 +416,43 @@
                         // optimizeWaypoints: true,
                         travelMode: 'WALKING'
                     }
-                    directionsService.route(request, function (response, status) {
+                    directionsService.route(request, function(response, status) {
                         if (status === 'OK') {
                             directionsDisplay.setDirections(response);
                             var route = response.routes[0];
                             // For each route, display summary information.
                         } else {
-                            window.alert('Directions request failed due to ' + status);
+                            console.log('Directions request failed due to ' + status);
                         }
                     });
                 }
 
-                database.ref().on('value', function (snapshot) {
+                database.ref().on('value', function(snapshot) {
                     // console.log(snapshot.val())
 
                     var sv = snapshot.val();
                     var svLat = snapshot.val().lat;
                     var svLong = snapshot.val().lng;
 
-                    $("#confirmbtn").on("click", function () {
+                    $("#confirmbtn").on("click", function() {
                         placeMarker(map, sv)
                         $("#confirm").html(
-                            `Great guess! The actual distance between your point and where the painting was founded is ${calcDistance(userLat, userLng, svLat, svLong).toFixed(2)} km`
+                                `Great guess! The actual distance between your point and where the painting was founded is ${calcDistance(userLat, userLng, svLat, svLong).toFixed(2)} km`
                             )
-                        // calculating score based on distance
+                            // calculating score based on distance
                         var distance = calcDistance(userLat, userLng, svLat, svLong);
                         var score = 0;
                         if (distance >= 2000) {
                             console.log("Score is ", score);
-                            $("#confirm").append("<p>You got "+ score +" points!");
-                        }
-                        else {
+                            $("#confirm").append("<p>You got " + score + " points!");
+                        } else {
                             score = Math.floor(((2000 - distance) / 2000) * 100);
                             console.log("Score is ", score);
-                            $("#confirm").append("<p>You got "+ score +" points!");
-                    }
+                            $("#confirm").append("<p>You got " + score + " points!");
+                        }
                         calculateAndDisplayRoute(userLat, userLng, directionsService,
                             directionsDisplay);
+                        stop();
                     })
                 })
 
@@ -471,12 +464,11 @@
                 } else {
                     marker.setAnimation(google.maps.Animation.BOUNCE);
                 }
-
             }
 
             function drop() {
                 for (var i = 0; i < markerArray.length; i++) {
-                    setTimeout(function () {
+                    setTimeout(function() {
                         addMarkerMethod();
                     }, i * 200);
                 }
@@ -489,7 +481,7 @@
             map.controls[google.maps.ControlPosition.TOP_CENTER].push(infoBoxDiv);
 
             // Listen for clicks and add the location of the click to firebase.
-            map.addListener('click', function (e) {
+            map.addListener('click', function(e) {
                 data.lat = e.latLng.lat();
                 data.lng = e.latLng.lng();
                 addToFirebase(data);
@@ -509,7 +501,7 @@
 
             // Listen for clicks and add them to the heatmap.
             clicks.orderByChild('timestamp').startAt(startTime).on('child_added',
-                function (snapshot) {
+                function(snapshot) {
                     // Get that click from firebase.
                     var newPosition = snapshot.val();
                     var point = new google.maps.LatLng(newPosition.lat, newPosition.lng);
@@ -522,7 +514,7 @@
                     var expiryMs = Math.max(60 * 10 * 1000 - elapsedMs, 0);
 
                     // Set client timeout to remove the point after a certain time.
-                    window.setTimeout(function () {
+                    window.setTimeout(function() {
                         // Delete the old point from the database.
                         snapshot.ref.remove();
                     }, expiryMs);
@@ -554,13 +546,13 @@
             ref.onDisconnect().remove(); // Delete reference from firebase on disconnect.
 
             // Set value to timestamp.
-            ref.set(firebase.database.ServerValue.TIMESTAMP, function (err) {
+            ref.set(firebase.database.ServerValue.TIMESTAMP, function(err) {
                 if (err) { // Write to last message was unsuccessful.
                     console.log(err);
                 } else { // Write to last message was successful.
-                    ref.once('value', function (snap) {
+                    ref.once('value', function(snap) {
                         addClick(snap.val()); // Add click with same timestamp.
-                    }, function (err) {
+                    }, function(err) {
                         console.warn(err);
                     });
                 }
@@ -573,10 +565,10 @@
          *     It contains the lat, lng, sender and timestamp.
          */
         function addToFirebase(data) {
-            getTimestamp(function (timestamp) {
+            getTimestamp(function(timestamp) {
                 // Add the new timestamp to the record data.
                 data.timestamp = timestamp;
-                var ref = firebase.database().ref('clicks').push(data, function (err) {
+                var ref = firebase.database().ref('clicks').push(data, function(err) {
                     if (err) { // Data was not written to firebase.
                         console.warn(err);
                     }
@@ -587,15 +579,15 @@
 
 
         // function to calculate score after user hits confirm
-            //    if (distance >= 2000) {
-            //        score = 0;
-            //        alert("game over, your score was ", score);
-            //    } else {
-            //        score = Math.floor(((2000 - distance) / 2000) * 100);
-            //        alert("your score is" + score);
-            //    }
+        //    if (distance >= 2000) {
+        //        score = 0;
+        //        alert("game over, your score was ", score);
+        //    } else {
+        //        score = Math.floor(((2000 - distance) / 2000) * 100);
+        //        alert("your score is" + score);
+        //    }
 
-            // }
+        // }
     </script>
 
 
