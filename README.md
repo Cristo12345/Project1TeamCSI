@@ -7,7 +7,7 @@ This project utilizes the Google Maps API to allow users to guess a location on 
 
 
 ## Installation
-The game only requires basic JavaScript to be run. No packages are required. 
+The game only requires basic JavaScript to be run. No other packages need to be installed. 
 
 #### GutHub Pages
 You can play the game <a href="https://cristo12345.github.io/Project1TeamCSI/">here</a>.
